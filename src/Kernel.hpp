@@ -2,13 +2,18 @@
 #define TRANSPORT_KERNEL_HPP
 
 #include "Line.hpp"
+#include "List.hpp"
 #include "Train.hpp"
 
 struct Kernel {
-  Train** trains;
-  Line* line;
+  List trains;
+  Line *line;
 
-  Kernel(Line* line);
+  Kernel(Line *line);
+
+  List get_trains(State state);
+
+  unsigned int run(unsigned int time);
 
   void run(unsigned int begin, unsigned int end);
 

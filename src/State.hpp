@@ -1,8 +1,7 @@
 #ifndef TRANSPORT_STATE_HPP
 #define TRANSPORT_STATE_HPP
 
-enum State
-{
+enum State {
   WAIT_START, START, RUNNING, STOP, FLIP
 };
 

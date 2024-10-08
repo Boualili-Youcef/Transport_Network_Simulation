@@ -1,8 +1,7 @@
 #ifndef TRANSPORT_WAY_HPP
 #define TRANSPORT_WAY_HPP
 
-enum Way
-{
+enum Way {
   UP, DOWN
 };
 

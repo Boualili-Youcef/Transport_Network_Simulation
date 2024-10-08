@@ -3,10 +3,9 @@
 #include "Kernel.hpp"
 #include "Line.hpp"
 
-int main()
-{
+int main() {
   /* Build line */
-  Line* line  = new Line("L1", 6, 8, 4.f);
+  Line *line = new Line("L1", 6, 8, 4.f);
   line->add_station("1", 2, 4.1f);
   line->add_station("2_1", 2, 3.5f);
   line->add_station("3", 2, 4.2f);

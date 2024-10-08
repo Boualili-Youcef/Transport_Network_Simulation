@@ -1,8 +1,7 @@
 #ifndef TRANSPORT_STATION_HPP
 #define TRANSPORT_STATION_HPP
 
-struct Station
-{
+struct Station {
   char *name;
   unsigned int stop_duration;
 };

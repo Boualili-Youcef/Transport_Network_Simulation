@@ -25,6 +25,24 @@ Train::Train(struct Line *line, unsigned int start_time, unsigned int position, 
     station_index = line->station_number - 1;
   }
   sprintf(id, "%s_%d", line->name, position + 1);
+
+//  std::cout << "[Train] constructor - " << id << std::endl;
+
+}
+
+Train::Train(const Train &other) {
+  id = new char[strlen(other.id) + 1];
+  strcpy(id, other.id);
+  position = other.position;
+  way = other.way;
+  line = other.line;
+  delay = other.delay;
+  state = other.state;
+  next_time = other.next_time;
+  station_index = other.station_index;
+
+  //  std::cout << "[Train] copy constructor - " << id << std::endl;
+
 }
 
 void Train::display() {
@@ -44,7 +62,7 @@ void Train::run(unsigned int time) {
         || (station_index > 0 && way == DOWN)) {
       state = RUNNING;
       next_time = time + (way == UP ? line->durations[station_index] :
-                                 line->durations[station_index - 1]);
+                          line->durations[station_index - 1]);
       station_index += way == UP ? 1 : -1;
     } else {
       state = FLIP;
@@ -58,5 +76,8 @@ void Train::run(unsigned int time) {
 }
 
 Train::~Train() {
+
+//  std::cout << "[Train] destructor - " << id << std::endl;
+
   delete[] id;
 }

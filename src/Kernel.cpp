@@ -1,47 +1,64 @@
+#include "Iterator.hpp"
 #include "Kernel.hpp"
 
 #include <iostream>
 
-Kernel::Kernel(Line *line) : line(line)
-{
+Kernel::Kernel(Line *line) : line(line) {
   unsigned int i;
 
-  trains = new Train*[line->train_number];
   for (i = 0; i < line->train_number; ++i) {
-    trains[i] = new Train(line, 0, i, UP);
+    trains.add_first(new Train(line, 0, i, UP));
   }
 }
 
-void Kernel::run(unsigned int begin, unsigned int end)
-{
+List Kernel::get_trains(State state) {
+  List stopped_trains;
+  Iterator it(&trains, true);
+
+  while (it.has_more()) {
+    if (it.current()->state == state) {
+      stopped_trains.add_first(new Train(*it.current()));
+    }
+    it.next();
+  }
+  return stopped_trains;
+}
+
+unsigned int Kernel::run(unsigned int time) {
+  unsigned int min_next_time = INT_MAX;
+  Iterator it(&trains, true);
+
+  while (it.has_more()) {
+    if (it.current()->next_time == time) {
+      it.current()->run(time);
+
+//      std::cout << time << " => ";
+//      it.current()->display();
+//      std::cout << std::endl;
+
+    }
+    if (it.current()->next_time < min_next_time) {
+      min_next_time = it.current()->next_time;
+    }
+    it.next();
+  }
+  return min_next_time;
+}
+
+void Kernel::run(unsigned int begin, unsigned int end) {
   unsigned int time = begin;
 
   while (time <= end) {
-    unsigned int min_next_time = INT_MAX;
-    unsigned int i;
+    time = run(time);
 
-    for (i = 0; i < line->train_number; ++i) {
-      if (trains[i]->next_time == time) {
-        trains[i]->run(time);
-
-        /* display */
-        std::cout << time << " => ";
-        trains[i]->display();
-        std::cout << std::endl;
-      }
-      if (trains[i]->next_time < min_next_time) {
-        min_next_time = trains[i]->next_time;
-      }
+    List stopped_trains = get_trains(STOP);
+    Iterator it(&stopped_trains, true);
+    while (it.has_more()) {
+      std::cout << time << " : " << it.current()->id << " in station " << it.current()->line->stations[it.current()->station_index].name << std::endl;
+      it.next();
     }
-    time = min_next_time;
   }
 }
 
-/* Memory liberation of all trains */
-Kernel::~Kernel()
-{
-  for (unsigned int i = 0; i < line->train_number; ++i) {
-    delete trains[i];
-  }
-  delete[] trains;
+Kernel::~Kernel() {
 }

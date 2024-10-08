@@ -17,6 +17,8 @@ struct Train {
 
   Train(Line *line, unsigned int start_time, unsigned int position, Way way);
 
+  Train(const Train& other);
+
   void display();
 
   void run(unsigned int time);
