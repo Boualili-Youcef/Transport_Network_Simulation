@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+template<typename Data>
 struct List {
   List() : first(nullptr), last(nullptr) {
 
@@ -13,7 +14,7 @@ struct List {
   }
 
   List(const List &other) {
-    std::shared_ptr<Cell> current = first;
+    std::shared_ptr<Cell<Data>> current = first;
 
     while (current != nullptr) {
       add_last(current->data);
@@ -24,8 +25,8 @@ struct List {
 
   }
 
-  void add_first(const std::shared_ptr<Train> &data) {
-    std::shared_ptr<Cell> new_cell = std::make_shared<Cell>(data, nullptr, first);
+  void add_first(const std::shared_ptr<Data> &data) {
+    std::shared_ptr<Cell<Data>> new_cell = std::make_shared<Cell<Data>>(data, nullptr, first);
 
     if (first != nullptr) {
       first->previous = new_cell;
@@ -34,8 +35,8 @@ struct List {
     last = last == nullptr ? first : last;
   }
 
-  void add_last(const std::shared_ptr<Train> &data) {
-    std::shared_ptr<Cell> new_cell = std::make_shared<Cell>(data, last, nullptr);
+  void add_last(const std::shared_ptr<Data> &data) {
+    std::shared_ptr<Cell<Data>> new_cell = std::make_shared<Cell<Data>>(data, last, nullptr);
 
     if (last != nullptr) {
       last->next = new_cell;
@@ -45,7 +46,7 @@ struct List {
   }
 
   void append(List &list) {
-    std::shared_ptr<Cell> current = list.first;
+    std::shared_ptr<Cell<Data>> current = list.first;
 
     while (current != nullptr) {
       add_last(current->data);
@@ -55,7 +56,7 @@ struct List {
 
   unsigned int size() {
     unsigned int size = 0;
-    std::shared_ptr<Cell> current = first;
+    std::shared_ptr<Cell<Data>> current = first;
 
     while (current != last) {
       ++size;
@@ -88,8 +89,8 @@ struct List {
 
   }
 
-  std::shared_ptr<Cell> first;
-  std::shared_ptr<Cell> last;
+  std::shared_ptr<Cell<Data>> first;
+  std::shared_ptr<Cell<Data>> last;
 };
 
 #endif //TRANSPORT_LIST_HPP

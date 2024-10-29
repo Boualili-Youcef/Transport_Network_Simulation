@@ -1,15 +1,17 @@
 #include <cstring>
 
+#include "Iterator.hpp"
 #include "Line.hpp"
+#include "Train.hpp"
 
 Line::Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration) :
-  stations(station_number), durations(station_number - 1) {
+  station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
+  flip_duration((int) (flip_duration * 60)), station_index(0) {
   this->name = new char[strlen(name) + 1];
   strcpy(this->name, name);
-  this->station_number = station_number;
-  this->train_number = train_number;
-  this->flip_duration = (int) (flip_duration * 60);
-  station_index = 0;
+  for (unsigned int i = 0; i < train_number; ++i) {
+    trains.add_first(std::make_shared<Train>(*this, 0, i, UP));
+  }
 }
 
 void Line::add_station(const char *name, float stop_duration, float duration) {
@@ -34,6 +36,40 @@ unsigned int Line::get_total_duration() const {
   }
   total += 2 * flip_duration;
   return total;
+}
+
+List<Train> Line::get_trains(State state) {
+  List<Train> stopped_trains;
+  Iterator<Train> it(trains, true);
+
+  while (it.has_more()) {
+    if (it.current()->state == state) {
+      stopped_trains.add_first(it.current());
+    }
+    it.next();
+  }
+  return stopped_trains;
+}
+
+unsigned int Line::run(unsigned int time) {
+  unsigned int min_next_time = INT_MAX;
+  Iterator<Train> it(trains, true);
+
+  while (it.has_more()) {
+    if (it.current()->next_time == time) {
+      it.current()->run(time);
+
+      std::cout << time << " => ";
+      it.current()->display();
+      std::cout << std::endl;
+
+    }
+    if (it.current()->next_time < min_next_time) {
+      min_next_time = it.current()->next_time;
+    }
+    it.next();
+  }
+  return min_next_time;
 }
 
 Line::~Line() {

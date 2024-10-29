@@ -6,14 +6,11 @@
 #include "Train.hpp"
 
 struct Kernel {
-  List trains;
-  std::unique_ptr<Line> line;
+  List<Line> lines;
 
-  Kernel(std::unique_ptr<Line>& line);
+  Kernel();
 
-  List get_trains(State state);
-
-  unsigned int run(unsigned int time);
+  void add_line(std::shared_ptr<Line> line);
 
   void run(unsigned int begin, unsigned int end);
 
