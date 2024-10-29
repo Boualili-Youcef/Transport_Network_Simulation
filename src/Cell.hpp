@@ -4,9 +4,10 @@
 #include "Train.hpp"
 
 #include <iostream>
+#include <memory>
 
 struct Cell {
-  Cell(Train *data, Cell *previous, Cell *next)
+  Cell(const std::shared_ptr<Train>& data, const std::shared_ptr<Cell>& previous, const std::shared_ptr<Cell>& next)
     : data(data), previous(previous), next(next) {
 
 //    std::cout << "[Cell] constructor" << std::endl;
@@ -17,12 +18,11 @@ struct Cell {
 
 //    std::cout << "[Cell] destructor" << std::endl;
 
-    delete data;
   }
 
-  Train *data;
-  Cell *next;
-  Cell *previous;
+  std::shared_ptr<Train> data;
+  std::shared_ptr<Cell> next;
+  std::shared_ptr<Cell> previous;
 };
 
 #endif //TRANSPORT_CELL_HPP

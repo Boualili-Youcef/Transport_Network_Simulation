@@ -7,9 +7,9 @@
 
 struct Kernel {
   List trains;
-  Line *line;
+  std::unique_ptr<Line> line;
 
-  Kernel(Line *line);
+  Kernel(std::unique_ptr<Line>& line);
 
   List get_trains(State state);
 

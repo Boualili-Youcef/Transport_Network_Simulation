@@ -2,12 +2,11 @@
 
 #include "Line.hpp"
 
-Line::Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration) {
+Line::Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration) :
+  stations(station_number), durations(station_number - 1) {
   this->name = new char[strlen(name) + 1];
   strcpy(this->name, name);
   this->station_number = station_number;
-  stations = new Station[station_number];
-  durations = new unsigned int[station_number - 1];
   this->train_number = train_number;
   this->flip_duration = (int) (flip_duration * 60);
   station_index = 0;
@@ -23,7 +22,7 @@ void Line::add_station(const char *name, float stop_duration, float duration) {
   station_index++;
 }
 
-unsigned int Line::get_total_duration() {
+unsigned int Line::get_total_duration() const {
   unsigned int total = 0;
   unsigned int i;
 
@@ -44,6 +43,4 @@ Line::~Line() {
   for (i = 0; i < station_number; ++i) {
     delete[] stations[i].name;
   }
-  delete[] stations;
-  delete[] durations;
 }

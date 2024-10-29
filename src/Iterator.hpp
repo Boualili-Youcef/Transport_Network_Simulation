@@ -5,17 +5,17 @@
 
 struct Iterator {
 
-  Iterator(List *list, bool forward)
-    : list(list), current_cell(forward ? list->first : list->last), forward(forward) {}
+  Iterator(const List &list, bool forward)
+    : list(list), current_cell(forward ? list.first : list.last), forward(forward) {}
 
-  Train *current() { return current_cell->data; }
+  const std::shared_ptr<Train> &current() { return current_cell->data; }
 
   bool has_more() { return current_cell != nullptr; }
 
   void next() { current_cell = forward ? current_cell->next : current_cell->previous; }
 
-  List *list;
-  Cell *current_cell;
+  const List &list;
+  std::shared_ptr<Cell> current_cell;
   bool forward;
 };
 

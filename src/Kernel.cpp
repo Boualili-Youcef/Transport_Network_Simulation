@@ -3,21 +3,21 @@
 
 #include <iostream>
 
-Kernel::Kernel(Line *line) : line(line) {
+Kernel::Kernel(std::unique_ptr<Line>& line) : line(std::move(line)) {
   unsigned int i;
 
-  for (i = 0; i < line->train_number; ++i) {
-    trains.add_first(new Train(line, 0, i, UP));
+  for (i = 0; i < this->line->train_number; ++i) {
+    trains.add_first(std::make_shared<Train>(*this->line, 0, i, UP));
   }
 }
 
 List Kernel::get_trains(State state) {
   List stopped_trains;
-  Iterator it(&trains, true);
+  Iterator it(trains, true);
 
   while (it.has_more()) {
     if (it.current()->state == state) {
-      stopped_trains.add_first(new Train(*it.current()));
+      stopped_trains.add_first(std::make_shared<Train>(*it.current()));
     }
     it.next();
   }
@@ -26,7 +26,7 @@ List Kernel::get_trains(State state) {
 
 unsigned int Kernel::run(unsigned int time) {
   unsigned int min_next_time = INT_MAX;
-  Iterator it(&trains, true);
+  Iterator it(trains, true);
 
   while (it.has_more()) {
     if (it.current()->next_time == time) {
@@ -52,9 +52,9 @@ void Kernel::run(unsigned int begin, unsigned int end) {
     time = run(time);
 
     List stopped_trains = get_trains(STOP);
-    Iterator it(&stopped_trains, true);
+    Iterator it(stopped_trains, true);
     while (it.has_more()) {
-      std::cout << time << " : " << it.current()->id << " in station " << it.current()->line->stations[it.current()->station_index].name << std::endl;
+      std::cout << time << " : " << it.current()->id << " in station " << it.current()->line.stations[it.current()->station_index].name << std::endl;
       it.next();
     }
   }

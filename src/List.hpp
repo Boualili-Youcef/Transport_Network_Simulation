@@ -12,8 +12,8 @@ struct List {
 
   }
 
-  List(const List& other) {
-    Cell* current = first;
+  List(const List &other) {
+    std::shared_ptr<Cell> current = first;
 
     while (current != nullptr) {
       add_last(current->data);
@@ -24,8 +24,8 @@ struct List {
 
   }
 
-  void add_first(Train *data) {
-    Cell *new_cell = new Cell(data, nullptr, first);
+  void add_first(const std::shared_ptr<Train> &data) {
+    std::shared_ptr<Cell> new_cell = std::make_shared<Cell>(data, nullptr, first);
 
     if (first != nullptr) {
       first->previous = new_cell;
@@ -34,8 +34,8 @@ struct List {
     last = last == nullptr ? first : last;
   }
 
-  void add_last(Train *data) {
-    Cell *new_cell = new Cell(data, last, nullptr);
+  void add_last(const std::shared_ptr<Train> &data) {
+    std::shared_ptr<Cell> new_cell = std::make_shared<Cell>(data, last, nullptr);
 
     if (last != nullptr) {
       last->next = new_cell;
@@ -45,7 +45,7 @@ struct List {
   }
 
   void append(List &list) {
-    Cell *current = list.first;
+    std::shared_ptr<Cell> current = list.first;
 
     while (current != nullptr) {
       add_last(current->data);
@@ -55,7 +55,7 @@ struct List {
 
   unsigned int size() {
     unsigned int size = 0;
-    Cell *current = first;
+    std::shared_ptr<Cell> current = first;
 
     while (current != last) {
       ++size;
@@ -66,25 +66,19 @@ struct List {
 
   void remove_first() {
     if (first != nullptr) {
-      Cell *removed_cell = first;
-
       first = first->next;
       if (first == nullptr) {
         last = nullptr;
       }
-      delete removed_cell;
     }
   }
 
   void remove_last() {
     if (last != nullptr) {
-      Cell *removed_cell = last;
-
       last = last->previous;
       if (last == nullptr) {
         first = nullptr;
       }
-      delete removed_cell;
     }
   }
 
@@ -92,16 +86,10 @@ struct List {
 
 //    std::cout << "[List] destructor" << std::endl;
 
-    while (first != nullptr) {
-      Cell *next = first->next;
-
-      delete first;
-      first = next;
-    }
   }
 
-  Cell *first;
-  Cell *last;
+  std::shared_ptr<Cell> first;
+  std::shared_ptr<Cell> last;
 };
 
 #endif //TRANSPORT_LIST_HPP
