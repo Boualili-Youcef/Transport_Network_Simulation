@@ -5,92 +5,121 @@
 
 #include <iostream>
 
-template<typename Data>
-struct List {
-  List() : first(nullptr), last(nullptr) {
+template <typename Data>
+class List
+{
 
-//    std::cout << "[List] constructor" << std::endl;
+public:
+  List() : first(nullptr), last(nullptr)
+  {
 
+    //    std::cout << "[List] constructor" << std::endl;
   }
 
-  List(const List &other) {
+  List(const List &other)
+  {
     std::shared_ptr<Cell<Data>> current = first;
 
-    while (current != nullptr) {
-      add_last(current->data);
-      current = current->next;
+    while (current != nullptr)
+    {
+      add_last(current->getData());
+      current = current->getNext();
     }
 
-//    std::cout << "[List] copy constructor" << std::endl;
-
+    //    std::cout << "[List] copy constructor" << std::endl;
   }
 
-  void add_first(const std::shared_ptr<Data> &data) {
+  void add_first(const std::shared_ptr<Data> &data)
+  {
     std::shared_ptr<Cell<Data>> new_cell = std::make_shared<Cell<Data>>(data, nullptr, first);
 
-    if (first != nullptr) {
-      first->previous = new_cell;
+    if (first != nullptr)
+    {
+      first->setPrevious(new_cell);
     }
     first = new_cell;
     last = last == nullptr ? first : last;
   }
 
-  void add_last(const std::shared_ptr<Data> &data) {
+  void add_last(const std::shared_ptr<Data> &data)
+  {
     std::shared_ptr<Cell<Data>> new_cell = std::make_shared<Cell<Data>>(data, last, nullptr);
 
-    if (last != nullptr) {
-      last->next = new_cell;
+    if (last != nullptr)
+    {
+      last->setNext(new_cell);
     }
     last = new_cell;
     first = first == nullptr ? last : first;
   }
 
-  void append(List &list) {
+  void append(List &list)
+  {
     std::shared_ptr<Cell<Data>> current = list.first;
 
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
       add_last(current->data);
       current = current->next;
     }
   }
 
-  unsigned int size() {
+  unsigned int size()
+  {
     unsigned int size = 0;
     std::shared_ptr<Cell<Data>> current = first;
 
-    while (current != last) {
+    while (current != last)
+    {
       ++size;
       current = current->next;
     }
     return size;
   }
 
-  void remove_first() {
-    if (first != nullptr) {
+  void remove_first()
+  {
+    if (first != nullptr)
+    {
       first = first->next;
-      if (first == nullptr) {
+      if (first == nullptr)
+      {
         last = nullptr;
       }
     }
   }
 
-  void remove_last() {
-    if (last != nullptr) {
+  void remove_last()
+  {
+    if (last != nullptr)
+    {
       last = last->previous;
-      if (last == nullptr) {
+      if (last == nullptr)
+      {
         first = nullptr;
       }
     }
   }
 
-  ~List() {
-
-//    std::cout << "[List] destructor" << std::endl;
-
+  std::shared_ptr<Cell<Data>> getFirst() const
+  {
+    return first;
   }
 
+  std::shared_ptr<Cell<Data>> getLast() const
+  {
+    return last;
+  }
+
+  ~List()
+  {
+
+    //    std::cout << "[List] destructor" << std::endl;
+  }
+
+private:
   std::shared_ptr<Cell<Data>> first;
   std::shared_ptr<Cell<Data>> last;
 };
 
-#endif //TRANSPORT_LIST_HPP
+#endif // TRANSPORT_LIST_HPP

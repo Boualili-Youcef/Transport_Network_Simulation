@@ -3,21 +3,40 @@
 
 #include "List.hpp"
 
-template<typename Data>
-struct Iterator {
+using namespace std;
 
-  Iterator(const List<Data> &list, bool forward)
-    : list(list), current_cell(forward ? list.first : list.last), forward(forward) {}
+template <typename Data>
+class Iterator
+{
 
-  const std::shared_ptr<Data> &current() { return current_cell->data; }
-
-  bool has_more() { return current_cell != nullptr; }
-
-  void next() { current_cell = forward ? current_cell->next : current_cell->previous; }
-
+private:
   const List<Data> &list;
-  std::shared_ptr<Cell<Data>> current_cell;
+  shared_ptr<Cell<Data>> current_cell;
   bool forward;
+
+public:
+  explicit Iterator(const List<Data> &list, bool forward)
+      : list(list), current_cell(forward ? list.getFirst() : list.getLast()), forward(forward) {}
+
+public:
+  shared_ptr<Data> current() const
+  {
+    // on fait une verification que current_cell n'est pas null
+    if (current_cell)
+    {
+      return current_cell->getData();
+    }
+    return nullptr;
+  }
+  bool has_more() const { return current_cell != nullptr; }
+
+  void next()
+  {
+    if (current_cell)
+    {
+      current_cell = forward ? current_cell->getNext() : current_cell->getPrevious();
+    }
+  }
 };
 
-#endif //TRANSPORT_ITERATOR_HPP
+#endif // TRANSPORT_ITERATOR_HPP

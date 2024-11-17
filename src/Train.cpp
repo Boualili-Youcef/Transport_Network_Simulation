@@ -5,31 +5,38 @@
 
 #include "Train.hpp"
 
-Train::Train(const Line &line, unsigned int start_time, unsigned int position, Way way) : line(line) {
-  id = new char[strlen(line.name) + 4];
+Train::Train(const Line &line, unsigned int start_time, unsigned int position, Way way) : line(line)
+{
+  id = new char[strlen(line.getName()) + 4];
   id[0] = 0;
   this->position = position;
   this->way = way;
-  delay = std::floor((double) line.get_total_duration() / (double) line.train_number);
-  if (position == 0) {
+  delay = std::floor((double)line.get_total_duration() / (double)line.getTrainNumber());
+  if (position == 0)
+  {
     state = START;
     next_time = start_time;
-  } else {
+  }
+  else
+  {
     state = WAIT_START;
     next_time = start_time + position * delay;
   }
-  if (way == UP) {
+  if (way == UP)
+  {
     station_index = 0;
-  } else {
-    station_index = line.station_number - 1;
   }
-  sprintf(id, "%s_%d", line.name, position + 1);
+  else
+  {
+    station_index = line.getStationNumber() - 1;
+  }
+  sprintf(id, "%s_%d", line.getName(), position + 1);
 
-//  std::cout << "[Train] constructor - " << id << std::endl;
-
+  //  std::cout << "[Train] constructor - " << id << std::endl;
 }
 
-Train::Train(const Train &other) : line(other.line) {
+Train::Train(const Train &other) : line(other.line)
+{
   id = new char[strlen(other.id) + 1];
   strcpy(id, other.id);
   position = other.position;
@@ -40,41 +47,70 @@ Train::Train(const Train &other) : line(other.line) {
   station_index = other.station_index;
 
   //  std::cout << "[Train] copy constructor - " << id << std::endl;
-
 }
 
-void Train::display() {
-  std::cout << "train " << id << ": " << state_to_string(state) << " " <<
-            (state == RUNNING ? "to station" : "in station") << " " <<
-            line.stations[station_index].name << " " <<
-            line.name << " " << (
-              way == UP ? "UP" : "DOWN");
+void Train::display()
+{
+  std::cout << "train " << id << ": " << state_to_string(state) << " " << (state == RUNNING ? "to station" : "in station") << " " << line.getStations()[station_index].getName() << " " << line.getName() << " " << (way == UP ? "UP" : "DOWN");
 }
 
-void Train::run(unsigned int time) {
-  if (state == WAIT_START) {
+void Train::run(unsigned int time)
+{
+  if (state == WAIT_START)
+  {
     state = START;
     next_time = time;
-  } else if (state == START or state == STOP) {
-    if ((station_index < line.station_number - 1 and way == UP) or (station_index > 0 and way == DOWN)) {
+  }
+  else if (state == START or state == STOP)
+  {
+    if ((station_index < line.getStationNumber() - 1 and way == UP) or (station_index > 0 and way == DOWN))
+    {
       state = RUNNING;
-      next_time = time + (way == UP ? line.durations[station_index] :
-                          line.durations[station_index - 1]);
+      next_time = time + (way == UP ? line.getDurations()[station_index] : line.getDurations()[station_index - 1]);
       station_index += way == UP ? 1 : -1;
-    } else {
+    }
+    else
+    {
       state = FLIP;
-      next_time = time + line.flip_duration;
+      next_time = time + line.getFlipDuration();
       way = way == UP ? DOWN : UP;
     }
-  } else if (state == RUNNING or state == FLIP) {
+  }
+  else if (state == RUNNING or state == FLIP)
+  {
     state = STOP;
-    next_time = time + line.stations[station_index].stop_duration;
+    next_time = time + line.getStations()[station_index].getStopDuration();
   }
 }
 
-Train::~Train() {
+char *Train::getId() const
+{
+  return id;
+}
 
-//  std::cout << "[Train] destructor - " << id << std::endl;
+unsigned int Train::getNextTime() const
+{
+  return next_time;
+}
+
+State Train::getState() const
+{
+  return state;
+}
+
+unsigned int Train::getStationIndex() const
+{
+  return station_index;
+}
+
+const Line &Train::getLine() const{
+  return line;
+}
+
+Train::~Train()
+{
+
+  //  std::cout << "[Train] destructor - " << id << std::endl;
 
   delete[] id;
 }

@@ -5,7 +5,10 @@
 #include "State.hpp"
 #include "Way.hpp"
 
-struct Train {
+class Train
+{
+
+private:
   char *id;
   unsigned int position;
   unsigned int delay;
@@ -15,6 +18,7 @@ struct Train {
   Way way;
   unsigned int next_time;
 
+public:
   Train(const Line &line, unsigned int start_time, unsigned int position, Way way);
 
   Train(const Train &other);
@@ -23,9 +27,20 @@ struct Train {
 
   void run(unsigned int time);
 
+  char *getId() const;
+
+  unsigned int getNextTime() const;
+
+  State getState() const;
+
+  unsigned int getStationIndex() const;
+
+  const Line &getLine() const;
+
+
   ~Train();
 };
 
 typedef struct Train *TrainPtr;
 
-#endif //TRANSPORT_TRAIN_HPP
+#endif // TRANSPORT_TRAIN_HPP

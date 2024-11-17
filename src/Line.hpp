@@ -9,7 +9,9 @@
 
 struct Train;
 
-struct Line {
+class Line
+{
+private:
   char *name;
   unsigned int station_number;
   std::valarray<unsigned int> durations;
@@ -19,17 +21,29 @@ struct Line {
   unsigned int station_index;
   List<Train> trains;
 
+public:
   Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration);
-
-  void add_station(const char *name, float stop_duration, float duration);
+  List<Train> get_trains(State state);
 
   unsigned int get_total_duration() const;
 
-  List<Train> get_trains(State state);
+  void add_station(const char *name, float stop_duration, float duration);
 
   unsigned int run(unsigned int time);
+
+  std::valarray<Station> getStations() const;
+
+  unsigned int getTrainNumber() const;
+
+  unsigned int getStationNumber() const;
+
+  std::valarray<unsigned int> getDurations() const;
+
+  unsigned int getFlipDuration() const;
+
+  char *getName() const;
 
   ~Line();
 };
 
-#endif //TRANSPORT_LINE_HPP
+#endif // TRANSPORT_LINE_HPP

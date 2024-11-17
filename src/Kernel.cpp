@@ -2,6 +2,7 @@
 #include "Kernel.hpp"
 
 #include <iostream>
+#include <limits.h>
 
 Kernel::Kernel() {
 }
@@ -24,8 +25,8 @@ void Kernel::run(unsigned int begin, unsigned int end) {
         List<Train> stopped_trains = it.current()->get_trains(STOP);
         Iterator<Train> it(stopped_trains, true);
         while (it.has_more()) {
-          std::cout << time << " : " << it.current()->id << " in station "
-                    << it.current()->line.stations[it.current()->station_index].name << std::endl;
+          std::cout << time << " : " << it.current()->getId() << " in station "
+                    << it.current()->getLine().getStations()[it.current()->getStationIndex()].getName() << std::endl;
           it.next();
         }
       }

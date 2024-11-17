@@ -4,24 +4,56 @@
 #include <iostream>
 #include <memory>
 
-template<typename Data>
-struct Cell {
-  Cell(const std::shared_ptr<Data>& data, const std::shared_ptr<Cell>& previous, const std::shared_ptr<Cell>& next)
-    : data(data), previous(previous), next(next) {
+using namespace std;
 
-//    std::cout << "[Cell] constructor" << std::endl;
+template <typename Data>
+class Cell
+{
+private:
+  shared_ptr<Data> data;
+  shared_ptr<Cell> next;
+  shared_ptr<Cell> previous;
 
+public:
+  // Ici j'ai utiliser explicite pour eviter d'être invoquées par erreur via une conversion implicite
+  // normalement on le fait quand le constructeur a un seul argument mais je pense c'est une bonne pratique
+  explicit Cell(const shared_ptr<Data> &data, const shared_ptr<Cell> &previous, const shared_ptr<Cell> &next)
+      : data(data), previous(previous), next(next)
+  {
+
+    //    cout << "[Cell] constructor" << endl;
   }
 
-  ~Cell() {
-
-//    std::cout << "[Cell] destructor" << std::endl;
-
+  shared_ptr<Data> getData() const
+  {
+    return data;
   }
 
-  std::shared_ptr<Data> data;
-  std::shared_ptr<Cell> next;
-  std::shared_ptr<Cell> previous;
+  shared_ptr<Cell> getNext() const
+  {
+    return next;
+  }
+
+  shared_ptr<Cell> getPrevious() const
+  {
+    return previous;
+  }
+
+  void setNext(const shared_ptr<Cell> &next)
+  {
+    this->next = next;
+  }
+
+  void setPrevious(const shared_ptr<Cell> &previous)
+  {
+    this->previous = previous;
+  }
+
+  ~Cell()
+  {
+
+    //    cout << "[Cell] destructor" << endl;
+  }
 };
 
-#endif //TRANSPORT_CELL_HPP
+#endif // TRANSPORT_CELL_HPP

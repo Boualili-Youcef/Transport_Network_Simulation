@@ -5,9 +5,11 @@
 #include "List.hpp"
 #include "Train.hpp"
 
-struct Kernel {
+class Kernel {
+private:
   List<Line> lines;
 
+public:
   Kernel();
 
   void add_line(std::shared_ptr<Line> line);
