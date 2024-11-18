@@ -6,13 +6,14 @@
 #include "Station.hpp"
 
 #include <valarray>
+#include <string>
 
 struct Train;
 
 class Line
 {
 private:
-  char *name;
+  std::string name;
   unsigned int station_number;
   std::valarray<unsigned int> durations;
   std::valarray<Station> stations;
@@ -22,16 +23,17 @@ private:
   List<Train> trains;
 
 public:
-  Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration);
+  Line(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration);
   List<Train> get_trains(State state);
 
   unsigned int get_total_duration() const;
 
-  void add_station(const char *name, float stop_duration, float duration);
+  void add_station(const std::string name, float stop_duration, float duration);
 
   unsigned int run(unsigned int time);
 
-  std::valarray<Station> getStations() const;
+  // ******************* GETTERS :  *************************
+  std::valarray<Station> getStations() const; // Pourquoi on ne peux pas passer par reference constante ici !!!!!!!!!!!! const &
 
   unsigned int getTrainNumber() const;
 
@@ -41,7 +43,10 @@ public:
 
   unsigned int getFlipDuration() const;
 
-  char *getName() const;
+  const std::string &getName() const;
+
+  // ******************* SETTERS :  *************************
+  void setName(const string &name);
 
   ~Line();
 };

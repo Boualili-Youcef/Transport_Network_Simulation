@@ -7,8 +7,7 @@
 
 Train::Train(const Line &line, unsigned int start_time, unsigned int position, Way way) : line(line)
 {
-  id = new char[strlen(line.getName()) + 4];
-  id[0] = 0;
+  setId("");
   this->position = position;
   this->way = way;
   delay = std::floor((double)line.get_total_duration() / (double)line.getTrainNumber());
@@ -30,15 +29,14 @@ Train::Train(const Line &line, unsigned int start_time, unsigned int position, W
   {
     station_index = line.getStationNumber() - 1;
   }
-  sprintf(id, "%s_%d", line.getName(), position + 1);
+  setId("ID_" + line.getName() + "_" + std::to_string(position + 1));
 
   //  std::cout << "[Train] constructor - " << id << std::endl;
 }
 
 Train::Train(const Train &other) : line(other.line)
 {
-  id = new char[strlen(other.id) + 1];
-  strcpy(id, other.id);
+  setId(other.id);
   position = other.position;
   way = other.way;
   delay = other.delay;
@@ -83,7 +81,8 @@ void Train::run(unsigned int time)
   }
 }
 
-char *Train::getId() const
+// ******************* GETTERS :  *************************
+const std::string &Train::getId() const
 {
   return id;
 }
@@ -103,14 +102,19 @@ unsigned int Train::getStationIndex() const
   return station_index;
 }
 
-const Line &Train::getLine() const{
+const Line &Train::getLine() const
+{
   return line;
+}
+
+// ******************* SETTERS :  *************************
+void Train::setId(const std::string &id)
+{
+  this->id = id;
 }
 
 Train::~Train()
 {
 
   //  std::cout << "[Train] destructor - " << id << std::endl;
-
-  delete[] id;
 }

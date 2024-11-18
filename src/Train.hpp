@@ -4,12 +4,13 @@
 #include "Line.hpp"
 #include "State.hpp"
 #include "Way.hpp"
+#include <string>
 
 class Train
 {
 
 private:
-  char *id;
+  std::string id;
   unsigned int position;
   unsigned int delay;
   const Line &line;
@@ -27,7 +28,8 @@ public:
 
   void run(unsigned int time);
 
-  char *getId() const;
+  // ******************* GETTERS :  *************************
+  const std::string &getId() const;
 
   unsigned int getNextTime() const;
 
@@ -37,6 +39,8 @@ public:
 
   const Line &getLine() const;
 
+  // ******************* SETTERS :  *************************
+  void setId(const std::string &id);
 
   ~Train();
 };

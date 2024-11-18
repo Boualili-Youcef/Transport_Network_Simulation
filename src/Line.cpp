@@ -5,22 +5,22 @@
 #include "Train.hpp"
 #include <limits.h>
 
-Line::Line(const char *name, unsigned int station_number, unsigned int train_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
-                                                                                                            flip_duration((int)(flip_duration * 60)), station_index(0)
+Line::Line(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
+                                                                                                                  flip_duration((int)(flip_duration * 60)), station_index(0)
 {
-  this->name = new char[strlen(name) + 1];
-  strcpy(this->name, name);
+
+  setName(name);
   for (unsigned int i = 0; i < train_number; ++i)
   {
     trains.add_first(std::make_shared<Train>(*this, 0, i, UP));
   }
 }
 
-void Line::add_station(const char *name, float stop_duration, float duration)
+void Line::add_station(const std::string name, float stop_duration, float duration)
 {
-  stations[station_index].setName(new char[strlen(name)]);
-  strcpy(stations[station_index].getName(), name);
-  stations[station_index].setStopDuration((int)(stop_duration * 60));  
+  stations[station_index].setName(name); // Utilisation directe de std::string
+  stations[station_index].setStopDuration((int)(stop_duration * 60));
+
   if (station_index < station_number - 1)
   {
     durations[station_index] = (int)(duration * 60);
@@ -85,6 +85,7 @@ unsigned int Line::run(unsigned int time)
   return min_next_time;
 }
 
+// ******************* GETTERS :  *************************
 std::valarray<Station> Line::getStations() const
 {
   return stations;
@@ -110,17 +111,18 @@ unsigned int Line::getFlipDuration() const
   return flip_duration;
 }
 
-char *Line::getName() const{
+const std::string& Line::getName() const
+{
   return name;
+}
+
+// ******************* SETTERS :  *************************
+
+void Line::setName(const string &name)
+{
+  this->name = name;
 }
 
 Line::~Line()
 {
-  unsigned int i;
-
-  delete[] name;
-  for (i = 0; i < station_number; ++i)
-  {
-    delete[] stations[i].getName();
-  }
 }

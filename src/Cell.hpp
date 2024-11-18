@@ -24,6 +24,7 @@ public:
     //    cout << "[Cell] constructor" << endl;
   }
 
+  //******************** GETTERS : ************************
   shared_ptr<Data> getData() const
   {
     return data;
@@ -39,6 +40,7 @@ public:
     return previous;
   }
 
+  // ******************* SETTERS :  *************************
   void setNext(const shared_ptr<Cell> &next)
   {
     this->next = next;

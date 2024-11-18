@@ -1,6 +1,6 @@
 #include "State.hpp"
 
-const char *state_to_string(enum State state) {
+const std::string state_to_string(enum State state) {
   switch (state) {
     case WAIT_START:
       return "WAIT_START";

@@ -4,11 +4,12 @@
 class Station
 {
 private:
-  char *name;
+  string name;
   unsigned int stop_duration;
 
 public:
-  char *getName()
+  // ******************* GETTERS :  *************************
+  string getName()
   {
     return name;
   }
@@ -17,7 +18,9 @@ public:
     return stop_duration;
   }
 
-  void setName(char *name)
+  // ******************* SETTERS :  *************************
+
+  void setName(string name)
   {
     this->name = name;
   }
