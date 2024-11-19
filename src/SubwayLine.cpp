@@ -1,11 +1,11 @@
 #include <cstring>
 
 #include "Iterator.hpp"
-#include "Line.hpp"
+#include "SubwayLine.hpp"
 #include "Train.hpp"
 #include <limits.h>
 
-Line::Line(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
+SubwayLine::SubwayLine(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
                                                                                                                   flip_duration((int)(flip_duration * 60)), station_index(0)
 {
 
@@ -16,7 +16,7 @@ Line::Line(const std::string name, unsigned int station_number, unsigned int tra
   }
 }
 
-void Line::add_station(const std::string name, float stop_duration, float duration)
+void SubwayLine::add_station(const std::string name, float stop_duration, float duration)
 {
   stations[station_index].setName(name); // Utilisation directe de std::string
   stations[station_index].setStopDuration((int)(stop_duration * 60));
@@ -28,7 +28,7 @@ void Line::add_station(const std::string name, float stop_duration, float durati
   station_index++;
 }
 
-unsigned int Line::get_total_duration() const
+unsigned int SubwayLine::get_total_duration() const
 {
   unsigned int total = 0;
   unsigned int i;
@@ -45,7 +45,7 @@ unsigned int Line::get_total_duration() const
   return total;
 }
 
-List<Train> Line::get_trains(State state)
+List<Train> SubwayLine::get_trains(State state)
 {
   List<Train> stopped_trains;
   Iterator<Train> it(trains, true);
@@ -61,7 +61,7 @@ List<Train> Line::get_trains(State state)
   return stopped_trains;
 }
 
-unsigned int Line::run(unsigned int time)
+unsigned int SubwayLine::run(unsigned int time)
 {
   unsigned int min_next_time = INT_MAX;
   Iterator<Train> it(trains, true);
@@ -86,43 +86,43 @@ unsigned int Line::run(unsigned int time)
 }
 
 // ******************* GETTERS :  *************************
-std::valarray<Station> Line::getStations() const
+const std::valarray<Station>& SubwayLine::getStations() const
 {
   return stations;
 }
 
-unsigned int Line::getTrainNumber() const
+unsigned int SubwayLine::getTrainNumber() const
 {
   return train_number;
 }
 
-unsigned int Line::getStationNumber() const
+unsigned int SubwayLine::getStationNumber() const
 {
   return station_number;
 }
 
-std::valarray<unsigned int> Line::getDurations() const
+const std::valarray<unsigned int>& SubwayLine::getDurations() const
 {
   return durations;
 }
 
-unsigned int Line::getFlipDuration() const
+unsigned int SubwayLine::getFlipDuration() const
 {
   return flip_duration;
 }
 
-const std::string& Line::getName() const
+const std::string& SubwayLine::getName() const
 {
   return name;
 }
 
 // ******************* SETTERS :  *************************
 
-void Line::setName(const string &name)
+void SubwayLine::setName(const string &name)
 {
   this->name = name;
 }
 
-Line::~Line()
+SubwayLine::~SubwayLine()
 {
 }

@@ -3,14 +3,14 @@
 #include <cstdio>
 #include <iostream>
 
-#include "Train.hpp"
+#include "Bus.hpp"
 
-Train::Train(const SubwayLine &subWayLine, unsigned int start_time, unsigned int position, Way way) : subWayLine(subWayLine)
+Bus::Bus(const BusLine &subWayLine, unsigned int start_time, unsigned int position, Way way) : subWayLine(subWayLine)
 {
   setId("");
   this->position = position;
   this->way = way;
-  delay = std::floor((double)subWayLine.get_total_duration() / (double)subWayLine.getTrainNumber());
+  delay = std::floor((double)subWayLine.get_total_duration() / (double)subWayLine.getBusNumber());
   if (position == 0)
   {
     state = START;
@@ -31,10 +31,10 @@ Train::Train(const SubwayLine &subWayLine, unsigned int start_time, unsigned int
   }
   setId("ID_" + subWayLine.getName() + "_" + std::to_string(position + 1)); // la partie importante std::to_string mettre un numerique en string
 
-  //  std::cout << "[Train] constructor - " << id << std::endl;
+  //  std::cout << "[Bus] constructor - " << id << std::endl;
 }
 
-Train::Train(const Train &other) : subWayLine(other.subWayLine)
+Bus::Bus(const Bus &other) : subWayLine(other.subWayLine)
 {
   setId(other.id);
   position = other.position;
@@ -44,15 +44,15 @@ Train::Train(const Train &other) : subWayLine(other.subWayLine)
   next_time = other.next_time;
   station_index = other.station_index;
 
-  //  std::cout << "[Train] copy constructor - " << id << std::endl;
+  //  std::cout << "[Bus] copy constructor - " << id << std::endl;
 }
 
-void Train::display()
+void Bus::display()
 {
   std::cout << "train " << id << ": " << state_to_string(state) << " " << (state == RUNNING ? "to station" : "in station") << " " << subWayLine.getStations()[station_index].getName() << " " << subWayLine.getName() << " " << (way == UP ? "UP" : "DOWN");
 }
 
-void Train::run(unsigned int time)
+void Bus::run(unsigned int time)
 {
   if (state == WAIT_START)
   {
@@ -82,39 +82,39 @@ void Train::run(unsigned int time)
 }
 
 // ******************* GETTERS :  *************************
-const std::string &Train::getId() const
+const std::string &Bus::getId() const
 {
   return id;
 }
 
-unsigned int Train::getNextTime() const
+unsigned int Bus::getNextTime() const
 {
   return next_time;
 }
 
-State Train::getState() const
+State Bus::getState() const
 {
   return state;
 }
 
-unsigned int Train::getStationIndex() const
+unsigned int Bus::getStationIndex() const
 {
   return station_index;
 }
 
-const SubwayLine &Train::getLine() const
+const BusLine &Bus::getLine() const
 {
   return subWayLine;
 }
 
 // ******************* SETTERS :  *************************
-void Train::setId(const std::string &id)
+void Bus::setId(const std::string &id)
 {
   this->id = id;
 }
 
-Train::~Train()
+Bus::~Bus()
 {
 
-  //  std::cout << "[Train] destructor - " << id << std::endl;
+  //  std::cout << "[Bus] destructor - " << id << std::endl;
 }

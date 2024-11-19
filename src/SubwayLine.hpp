@@ -10,7 +10,7 @@
 
 struct Train;
 
-class Line
+class SubwayLine
 {
 private:
   std::string name;
@@ -23,7 +23,7 @@ private:
   List<Train> trains;
 
 public:
-  Line(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration);
+  SubwayLine(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration);
   List<Train> get_trains(State state);
 
   unsigned int get_total_duration() const;
@@ -33,13 +33,13 @@ public:
   unsigned int run(unsigned int time);
 
   // ******************* GETTERS :  *************************
-  std::valarray<Station> getStations() const; // Pourquoi on ne peux pas passer par reference constante ici !!!!!!!!!!!! const &
+  const std::valarray<Station>& getStations() const;
 
   unsigned int getTrainNumber() const;
 
   unsigned int getStationNumber() const;
 
-  std::valarray<unsigned int> getDurations() const;
+  const std::valarray<unsigned int>& getDurations() const;
 
   unsigned int getFlipDuration() const;
 
@@ -48,7 +48,7 @@ public:
   // ******************* SETTERS :  *************************
   void setName(const string &name);
 
-  ~Line();
+  ~SubwayLine();
 };
 
 #endif // TRANSPORT_LINE_HPP

@@ -7,8 +7,8 @@
 Kernel::Kernel() {
 }
 
-void Kernel::add_line(std::shared_ptr<Line> line) {
-  lines.add_first(line);
+void Kernel::add_line(std::shared_ptr<SubwayLine> subWayLine) {
+  subWayLines.add_first(subWayLine);
 }
 
 void Kernel::run(unsigned int begin, unsigned int end) {
@@ -16,7 +16,7 @@ void Kernel::run(unsigned int begin, unsigned int end) {
 
   while (time <= end) {
     unsigned int min_next_time = INT_MAX;
-    Iterator<Line> it(lines, true);
+    Iterator<SubwayLine> it(subWayLines, true);
 
     while (it.has_more()) {
       unsigned int next_time = it.current()->run(time);

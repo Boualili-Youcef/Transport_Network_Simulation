@@ -28,6 +28,7 @@ public:
     }
     return nullptr;
   }
+  
   bool has_more() const { return current_cell != nullptr; }
 
   void next()

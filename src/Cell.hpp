@@ -20,7 +20,6 @@ public:
   explicit Cell(const shared_ptr<Data> &data, const shared_ptr<Cell> &previous, const shared_ptr<Cell> &next)
       : data(data), previous(previous), next(next)
   {
-
     //    cout << "[Cell] constructor" << endl;
   }
 
