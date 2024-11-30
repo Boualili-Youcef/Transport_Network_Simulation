@@ -1,17 +1,16 @@
-#ifndef TRANSPORT_STATION_HPP
-#define TRANSPORT_STATION_HPP
+#ifndef BUS_STATION_HPP
+#define BUS_STATION_HPP
 
-#include <string>
 
 class BusStop
 {
 private:
-  std::string name;
+  string name;
   unsigned int stop_duration;
 
 public:
   // ******************* GETTERS :  *************************
-  std::string getName() const
+  string getName() const
   {
     return name;
   }
@@ -22,7 +21,7 @@ public:
 
   // ******************* SETTERS :  *************************
 
-  void setName(std::string name)
+  void setName(string name)
   {
     this->name = name;
   }
@@ -33,4 +32,4 @@ public:
   }
 };
 
-#endif // TRANSPORT_STATION_HPP
+#endif // BUS_STATION_HPP

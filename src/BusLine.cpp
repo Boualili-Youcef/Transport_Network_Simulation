@@ -6,13 +6,13 @@
 #include <limits.h>
 
 BusLine::BusLine(const std::string name, unsigned int station_number, unsigned int bus_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), bus_number(bus_number),
-                                                                                                                        flip_duration((int)(flip_duration * 60)), station_index(0)
+                                                                                                                      flip_duration((int)(flip_duration * 60)), station_index(0)
 {
 
     setName(name);
     for (unsigned int i = 0; i < bus_number; ++i)
     {
-        buses.add_first(std::make_shared<Train>(*this, 0, i, UP));
+        buses.add_first(std::make_shared<Bus>(*this, 0, i, UP));
     }
 }
 
@@ -45,10 +45,10 @@ unsigned int BusLine::get_total_duration() const
     return total;
 }
 
-  List<Bus> BusLine::get_buses(State state)
-  {
-    List<Train> stopped_trains;
-    Iterator<Train> it(buses, true);
+List<Bus> BusLine::get_buses(State state)
+{
+    List<Bus> stopped_trains;
+    Iterator<Bus> it(buses, true);
 
     while (it.has_more())
     {
@@ -64,17 +64,20 @@ unsigned int BusLine::get_total_duration() const
 unsigned int BusLine::run(unsigned int time)
 {
     unsigned int min_next_time = INT_MAX;
-    Iterator<Train> it(buses, true);
+    Iterator<Bus> it(buses, true);
 
     while (it.has_more())
     {
         if (it.current()->getNextTime() == time)
         {
+            // TODO: "Modification"
             it.current()->run(time);
-
-            std::cout << time << " => ";
-            it.current()->display();
-            std::cout << std::endl;
+            if (it.current()->getState() == STOP)
+            {
+                std::cout << time << " => ";
+                it.current()->display();
+                std::cout << std::endl;
+            }
         }
         if (it.current()->getNextTime() < min_next_time)
         {
@@ -86,7 +89,7 @@ unsigned int BusLine::run(unsigned int time)
 }
 
 // ******************* GETTERS :  *************************
-const std::valarray<Station> &BusLine::getStations() const
+const std::valarray<BusStop> &BusLine::getStations() const
 {
     return stations;
 }

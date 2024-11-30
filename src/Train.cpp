@@ -49,7 +49,7 @@ Train::Train(const Train &other) : subWayLine(other.subWayLine)
 
 void Train::display()
 {
-  std::cout << "train " << id << ": " << state_to_string(state) << " " << (state == RUNNING ? "to station" : "in station") << " " << subWayLine.getStations()[station_index].getName() << " " << subWayLine.getName() << " " << (way == UP ? "UP" : "DOWN");
+  std::cout << "train " << id << ": " << state_to_string(state) << " " << (state == RUNNING ? "to station" : "in station") << " " << subWayLine.getStations()[station_index].getName() << " of subway line " << subWayLine.getName() << " (heading " << (way == UP ? "UP)" : "DOWN)");
 }
 
 void Train::run(unsigned int time)

@@ -13,14 +13,14 @@ private:
   std::string id;
   unsigned int position;
   unsigned int delay;
-  const BusLine &subWayLine;
+  const BusLine &busLine;
   unsigned int station_index;
   State state;
   Way way;
   unsigned int next_time;
 
 public:
-  Bus(const BusLine &subWayLine, unsigned int start_time, unsigned int position, Way way);
+  Bus(const BusLine &busLine, unsigned int start_time, unsigned int position, Way way);
 
   Bus(const Bus &other);
 
@@ -41,6 +41,8 @@ public:
 
   // ******************* SETTERS :  *************************
   void setId(const std::string &id);
+  void setNextTime( unsigned int  next_time);
+  
 
   ~Bus();
 };

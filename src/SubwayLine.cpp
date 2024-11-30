@@ -6,7 +6,7 @@
 #include <limits.h>
 
 SubwayLine::SubwayLine(const std::string name, unsigned int station_number, unsigned int train_number, float flip_duration) : station_number(station_number), stations(station_number), durations(station_number - 1), train_number(train_number),
-                                                                                                                  flip_duration((int)(flip_duration * 60)), station_index(0)
+                                                                                                                              flip_duration((int)(flip_duration * 60)), station_index(0)
 {
 
   setName(name);
@@ -70,11 +70,14 @@ unsigned int SubwayLine::run(unsigned int time)
   {
     if (it.current()->getNextTime() == time)
     {
+      // TODO: "Modification de ==STOP"
       it.current()->run(time);
-
-      std::cout << time << " => ";
-      it.current()->display();
-      std::cout << std::endl;
+      if (it.current()->getState() == STOP)
+      {
+        std::cout << time << " => ";
+        it.current()->display();
+        std::cout << std::endl;
+      }
     }
     if (it.current()->getNextTime() < min_next_time)
     {
@@ -86,7 +89,7 @@ unsigned int SubwayLine::run(unsigned int time)
 }
 
 // ******************* GETTERS :  *************************
-const std::valarray<Station>& SubwayLine::getStations() const
+const std::valarray<Station> &SubwayLine::getStations() const
 {
   return stations;
 }
@@ -101,7 +104,7 @@ unsigned int SubwayLine::getStationNumber() const
   return station_number;
 }
 
-const std::valarray<unsigned int>& SubwayLine::getDurations() const
+const std::valarray<unsigned int> &SubwayLine::getDurations() const
 {
   return durations;
 }
@@ -111,7 +114,7 @@ unsigned int SubwayLine::getFlipDuration() const
   return flip_duration;
 }
 
-const std::string& SubwayLine::getName() const
+const std::string &SubwayLine::getName() const
 {
   return name;
 }

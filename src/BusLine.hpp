@@ -1,9 +1,9 @@
-#ifndef TRANSPORT_LINE_HPP
-#define TRANSPORT_LINE_HPP
+#ifndef BUS_LINE_HPP
+#define BUS_LINE_HPP
 
 #include "List.hpp"
 #include "State.hpp"
-#include "BusLine.hpp"
+#include "BusStop.hpp"
 
 #include <valarray>
 #include <string>
@@ -16,7 +16,7 @@ private:
   std::string name;
   unsigned int station_number;
   std::valarray<unsigned int> durations;
-  std::valarray<BusLine> stations;
+  std::valarray<BusStop> stations;
   unsigned int bus_number;
   unsigned int flip_duration;
   unsigned int station_index;
@@ -33,7 +33,7 @@ public:
   unsigned int run(unsigned int time);
 
   // ******************* GETTERS :  *************************
-  const std::valarray<BusLine>& getStations() const;
+  const std::valarray<BusStop>& getStations() const;
 
   unsigned int getBusNumber() const;
 
@@ -51,4 +51,4 @@ public:
   ~BusLine();
 };
 
-#endif // TRANSPORT_LINE_HPP
+#endif
