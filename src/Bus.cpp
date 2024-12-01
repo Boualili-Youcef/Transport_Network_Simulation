@@ -7,7 +7,6 @@
 
 Bus::Bus(const BusLine &busLine, unsigned int start_time, unsigned int position, Way way) : busLine(busLine)
 {
-  setId("");
   this->position = position;
   this->way = way;
   delay = std::floor((double)busLine.get_total_duration() / (double)busLine.getBusNumber());
@@ -29,14 +28,16 @@ Bus::Bus(const BusLine &busLine, unsigned int start_time, unsigned int position,
   {
     station_index = busLine.getStationNumber() - 1;
   }
-  setId("ID_" + busLine.getName() + "_" + std::to_string(position + 1)); // la partie importante std::to_string mettre un numerique en string
+  this->id = "ID_" + busLine.getName() + "_" + std::to_string((position % 2 == 0) ? (position / 2) + 1                                // Pour bus impair
+                                                                                  : (busLine.getBusNumber() / 2) + (position / 2) + 1 // Pour bus pair
+                                               );
 
   //  std::cout << "[Bus] constructor - " << id << std::endl;
 }
 
 Bus::Bus(const Bus &other) : busLine(other.busLine)
 {
-  setId(other.id);
+  id = other.id;
   position = other.position;
   way = other.way;
   delay = other.delay;
@@ -107,17 +108,6 @@ unsigned int Bus::getStationIndex() const
 const BusLine &Bus::getLine() const
 {
   return busLine;
-}
-
-// ******************* SETTERS :  *************************
-void Bus::setId(const std::string &id)
-{
-  this->id = id;
-}
-
-void Bus::setNextTime(unsigned int next_time)
-{
-  this->next_time = next_time;
 }
 
 Bus::~Bus()

@@ -39,10 +39,6 @@ public:
 
   const BusLine &getLine() const;
 
-  // ******************* SETTERS :  *************************
-  void setId(const std::string &id);
-  void setNextTime( unsigned int  next_time);
-  
 
   ~Bus();
 };
