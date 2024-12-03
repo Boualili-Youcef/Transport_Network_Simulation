@@ -18,8 +18,7 @@ BusLine::BusLine(const std::string name, unsigned int station_number, unsigned i
     
     for (unsigned int i = bus_number / 2; i < bus_number; ++i)
     {
-
-        buses.add_first(std::make_shared<Bus>(*this, station_number - 1, i - (bus_number / 2), DOWN));
+        buses.add_first(std::make_shared<Bus>(*this, 0, i - (bus_number / 2), DOWN));
     }
 }
 

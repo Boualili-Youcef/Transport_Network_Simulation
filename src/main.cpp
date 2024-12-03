@@ -50,7 +50,7 @@ int main()
   kernel.add_bus_line(busLine_2);
 
   /* Loop simulation */
-  kernel.run(0, 600);
+  kernel.run(0, 5000);
 
   return 0;
 }
