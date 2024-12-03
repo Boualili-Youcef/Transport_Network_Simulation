@@ -20,37 +20,39 @@ void Kernel::add_bus_line(std::shared_ptr<BusLine> busLine)
 
 void Kernel::run(unsigned int begin, unsigned int end)
 {
-  unsigned int timeSubway = begin;
-  unsigned int timeBus = begin;
 
-  while (timeSubway <= end || timeBus <= end)
+  unsigned int time = begin;
+
+  while (time <= end)
   {
     unsigned int min_next_time = INT_MAX;
+    Iterator<SubwayLine> it(subWayLines, true);
 
-    Iterator<SubwayLine> it_subWay(subWayLines, true);
-    while (it_subWay.has_more())
+    while (it.has_more())
     {
-      unsigned int next_time = it_subWay.current()->run(timeSubway);
+      unsigned int next_time = it.current()->run(time);
 
-      List<Train> stopped_trains = it_subWay.current()->get_trains(STOP);
-      Iterator<Train> it_train(stopped_trains, true);
-      while (it_train.has_more())
       {
+        List<Train> stopped_trains = it.current()->get_trains(STOP);
+        Iterator<Train> it(stopped_trains, true);
+        while (it.has_more())
+        {
 
-        it_train.next();
+          it.next();
+        }
       }
 
       if (next_time < min_next_time)
       {
         min_next_time = next_time;
       }
-      it_subWay.next();
+      it.next();
     }
 
     Iterator<BusLine> it_bus_1(busLines, true);
     while (it_bus_1.has_more())
     {
-      unsigned int next_time = it_bus_1.current()->run(timeBus);
+      unsigned int next_time = it_bus_1.current()->run(time);
 
       List<Bus> stopped_buses = it_bus_1.current()->get_buses(STOP);
       Iterator<Bus> it_bus(stopped_buses, true);
@@ -67,14 +69,7 @@ void Kernel::run(unsigned int begin, unsigned int end)
       it_bus_1.next();
     }
 
-    if (timeSubway < min_next_time)
-    {
-      timeSubway = min_next_time;
-    }
-    if (timeBus < min_next_time)
-    {
-      timeBus = min_next_time;
-    }
+    time = min_next_time;
   }
 }
 

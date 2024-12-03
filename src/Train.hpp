@@ -39,9 +39,6 @@ public:
 
   const SubwayLine &getLine() const;
 
-  // ******************* SETTERS :  *************************
-  void setId(const std::string &id);
-
   ~Train();
 };
 

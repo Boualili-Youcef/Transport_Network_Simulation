@@ -28,7 +28,7 @@ public:
 
   unsigned int get_total_duration() const;
 
-  void add_bus_stop(const std::string name, float stop_duration, float duration);
+  void add_bus_stop(const std::string name, float stop_duration, float duration = 0);
 
   unsigned int run(unsigned int time);
 

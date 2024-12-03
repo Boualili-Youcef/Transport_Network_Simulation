@@ -7,7 +7,6 @@
 
 Train::Train(const SubwayLine &subWayLine, unsigned int start_time, unsigned int position, Way way) : subWayLine(subWayLine)
 {
-  setId("");
   this->position = position;
   this->way = way;
   delay = std::floor((double)subWayLine.get_total_duration() / (double)subWayLine.getTrainNumber());
@@ -29,14 +28,14 @@ Train::Train(const SubwayLine &subWayLine, unsigned int start_time, unsigned int
   {
     station_index = subWayLine.getStationNumber() - 1;
   }
-  setId("ID_" + subWayLine.getName() + "_" + std::to_string(position + 1)); // la partie importante std::to_string mettre un numerique en string
+  this->id = ("ID_" + subWayLine.getName() + "_" + std::to_string(position + 1)); // la partie importante std::to_string mettre un numerique en string
 
   //  std::cout << "[Train] constructor - " << id << std::endl;
 }
 
 Train::Train(const Train &other) : subWayLine(other.subWayLine)
 {
-  setId(other.id);
+  id = other.id;
   position = other.position;
   way = other.way;
   delay = other.delay;
@@ -105,12 +104,6 @@ unsigned int Train::getStationIndex() const
 const SubwayLine &Train::getLine() const
 {
   return subWayLine;
-}
-
-// ******************* SETTERS :  *************************
-void Train::setId(const std::string &id)
-{
-  this->id = id;
 }
 
 Train::~Train()

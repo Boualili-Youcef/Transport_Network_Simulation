@@ -28,7 +28,7 @@ int main()
   busLine_1->add_bus_stop("7", 2, 7.4f);
   busLine_1->add_bus_stop("8", 2, 3.4f);
   busLine_1->add_bus_stop("9", 2, 2.2f);
-  busLine_1->add_bus_stop("10", 2, 0.f);
+  busLine_1->add_bus_stop("10", 2);
  
 
   busLine_2->add_bus_stop("11", 2, 3.2f);
@@ -40,7 +40,7 @@ int main()
   busLine_2->add_bus_stop("17", 2, 1.2f);
   busLine_2->add_bus_stop("18", 2, 2.f);
   busLine_2->add_bus_stop("19", 2, 5.1f);
-  busLine_2->add_bus_stop("20", 2, 0.f);
+  busLine_2->add_bus_stop("20", 2);
 
 
   Kernel kernel;
@@ -50,7 +50,7 @@ int main()
   kernel.add_bus_line(busLine_2);
 
   /* Loop simulation */
-  kernel.run(0, 4000);
+  kernel.run(0, 600);
 
   return 0;
 }

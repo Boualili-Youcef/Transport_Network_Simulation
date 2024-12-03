@@ -28,9 +28,7 @@ Bus::Bus(const BusLine &busLine, unsigned int start_time, unsigned int position,
   {
     station_index = busLine.getStationNumber() - 1;
   }
-  this->id = "ID_" + busLine.getName() + "_" + std::to_string((position % 2 == 0) ? (position / 2) + 1                                // Pour bus impair
-                                                                                  : (busLine.getBusNumber() / 2) + (position / 2) + 1 // Pour bus pair
-                                               );
+  this->id = "ID_" + busLine.getName() + "_" + std::to_string(way == UP ? position + 1 : position + (busLine.getBusNumber() / 2) + 1);
 
   //  std::cout << "[Bus] constructor - " << id << std::endl;
 }
@@ -50,7 +48,6 @@ Bus::Bus(const Bus &other) : busLine(other.busLine)
 
 void Bus::display()
 {
-  // TODO : "attention"
   if (state == STOP)
     std::cout << "bus " << id << ": " << state_to_string(state) << " " << (state == RUNNING ? "to station" : "in station") << " " << busLine.getStations()[station_index].getName() << " of bus line " << busLine.getName() << " (heading " << (way == UP ? "UP)" : "DOWN)");
 }
@@ -76,6 +73,7 @@ void Bus::run(unsigned int time)
       next_time = time + busLine.getFlipDuration();
       way = way == UP ? DOWN : UP;
     }
+  
   }
   else if (state == RUNNING or state == FLIP)
   {

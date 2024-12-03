@@ -70,7 +70,6 @@ unsigned int SubwayLine::run(unsigned int time)
   {
     if (it.current()->getNextTime() == time)
     {
-      // TODO: "Modification de ==STOP"
       it.current()->run(time);
       if (it.current()->getState() == STOP)
       {

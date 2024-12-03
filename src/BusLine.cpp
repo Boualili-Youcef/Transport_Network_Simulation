@@ -10,16 +10,16 @@ BusLine::BusLine(const std::string name, unsigned int station_number, unsigned i
 {
 
     setName(name);
-    for (unsigned int i = 0; i < bus_number; ++i)
+    for (unsigned int i = 0; i < bus_number / 2; ++i)
     {
-        if (i % 2 == 0)
-        {
-            buses.add_first(std::make_shared<Bus>(*this, 0, i, UP));
-        }
-        else // Bus impair part de la fin
-        {
-            buses.add_first(std::make_shared<Bus>(*this, station_number - 1, i, DOWN));
-        }
+
+        buses.add_first(std::make_shared<Bus>(*this, 0, i, UP));
+    }
+    
+    for (unsigned int i = bus_number / 2; i < bus_number; ++i)
+    {
+
+        buses.add_first(std::make_shared<Bus>(*this, station_number - 1, i - (bus_number / 2), DOWN));
     }
 }
 
@@ -72,7 +72,6 @@ unsigned int BusLine::run(unsigned int time)
 {
     unsigned int min_next_time = INT_MAX;
     Iterator<Bus> it(buses, true);
-
     while (it.has_more())
     {
         if (it.current()->getNextTime() == time)
